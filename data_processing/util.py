@@ -3,8 +3,8 @@ import json
 import pandas as pd
 import os
 import re
-import spacy
-import spacy_fastlang
+from ftlangdetect import detect
+# import spacy_fastlang
 from nameparser import HumanName
 
 
@@ -164,10 +164,14 @@ def is_english(text):
     :param text: some text
     :return: True if the input text is in English, False otherwise
     """
+    """
     nlp = spacy.load('en_core_web_sm')
     nlp.add_pipe("language_detector")
     doc = nlp(text)
+    
     return doc._.language == 'en'
+    """
+    return detect(text, low_memory=False)["lang"] == "en"
 
 
 def remove_non_english(df):
@@ -180,6 +184,7 @@ def remove_non_english(df):
     df = df[df['is_english'] == True]
     df = df.drop(columns=['is_english'])
 
+    print("finished removing non english papers")
     return df
 
 
@@ -194,6 +199,7 @@ def drop_non_papers(df):
     df = df.query('title != "deleted"')
     df = df.query('title != "Deleted"')
 
+    print("finished dropping non papers")
     return df
 
 
@@ -210,6 +216,7 @@ def remove_duplicates(df):
     df = df.sort_values('nan_count', ascending=True).drop_duplicates('title', keep='first').sort_index()
     df = df.drop(columns=['nan_count'])
 
+    print("finished removing duplicates")
     return df
 
 
