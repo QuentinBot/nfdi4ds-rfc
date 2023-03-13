@@ -6,6 +6,7 @@ import re
 from ftlangdetect import detect
 # import spacy_fastlang
 from nameparser import HumanName
+import numpy as np
 
 
 def recursive_items(dictionary: Any) -> str:
@@ -228,11 +229,21 @@ def get_orkg_abstract_doi(doi, orkg_papers):
     Otherwise, 'no_abstract_found' is returned
     """
     if str(doi) != 'nan':
-        temp = orkg_papers[orkg_papers['doi'] == doi]['processed_abstract']
+        abstract = ""
+        for index, row in orkg_papers.iterrows():
+            if row["doi"] == doi:
+                abstract = row['processed_abstract']
+                break
+        # print(abstract)
+        if str(abstract) != "nan" and len(abstract) > 0:
+            return abstract
+
+        """temp = orkg_papers[orkg_papers['doi'] == doi]['processed_abstract']
         if len(temp) != 0:
             abstract = temp.values[0]
             if str(abstract) != 'nan':
-                return abstract
+                return abstract"""
+
     return 'no_abstract_found'
 
 
@@ -244,11 +255,21 @@ def get_orkg_abstract_title(title, orkg_papers):
     Otherwise, 'no_abstract_found' is returned
     """
     if str(title) != 'nan':
-        temp = orkg_papers[orkg_papers['title'] == title]['processed_abstract']
+        abstract = ""
+        for index, row in orkg_papers.iterrows():
+            if row["title"] == title:
+                abstract = row['processed_abstract']
+                break
+        # print(abstract)
+        if str(abstract) != 'nan' and len(abstract) > 0:
+            return abstract
+
+        """temp = orkg_papers[orkg_papers['title'] == title]['processed_abstract']
         if len(temp) != 0:
             abstract = temp.values[0]
             if str(abstract) != 'nan':
-                return abstract
+                return abstract"""
+
     return 'no_abstract_found'
 
 

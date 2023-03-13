@@ -3,6 +3,9 @@
 import ast
 import csv
 import json
+import urllib.request
+import requests
+
 import numpy as np
 import pandas as pd
 
@@ -84,8 +87,9 @@ class ORKGData:
         if 'paper_id' in self.df:
             del self.df['paper_id']
 
-        self.df.to_csv("data/orkg_loaded_label_data.csv", index=False)
+        self.df.to_csv("data/temp/orkg_loaded_label_data.csv", index=False)
         print("finished loading label data")
+        # self.df = pd.read_csv("data/temp/orkg_loaded_label_data.csv")
         return self.df
 
     def clean_orkg_data(self) -> pd.DataFrame:
@@ -109,7 +113,8 @@ class ORKGData:
         self.df = remove_non_english(self.df)
         # self.df = self.parse_authors_orkg(self.df)
 
-        self.df.to_csv("data/orkg_cleaned_data_noAuthor.csv", index=False)
+        self.df = self.df.reset_index(drop=True)
+        self.df.to_csv("data/temp/orkg_cleaned_data.csv", index=False)
         print("finished cleaning orkg data")
         return self.df
 
@@ -119,31 +124,64 @@ class ORKGData:
         :return: dataframe with added abstracts
         """
         api_data = APIData(self.df)
-        print(api_data.df)
-        api_data.df['crossref_field'] = [api_data.get_crossref_data(row['doi'], index)
-                                     for index, row in api_data.df.iterrows()]
-        print(api_data.df)
-        api_data.df['abstract'] = [ab['abstract'] if ab != {} else {} for ab in api_data.df['crossref_field']]
+        print(len(api_data.df.index))
 
-        api_data.df['semantic_field'] = [api_data.get_semantic_scholar_data(row['doi'], index)
-                                     for index, row in api_data.df.iterrows()]
+        # api_data.df['crossref_field'] = [api_data.get_crossref_data(row['doi'], index)
+        #                              for index, row in api_data.df.iterrows()]
+
+        # get data from semantic scholar
+        for index, row in api_data.df.iterrows():
+            if pd.isna(row["abstract"]) or len(row["abstract"]) == 0 or row["label"] == "Science":
+                print(index)
+                row["semantic_field"] = api_data.get_semantic_scholar_data(row["doi"], index)
+
+                sem_field = row['semantic_field']
+                if pd.isna(row["abstract"]) or len(row['abstract']) == 0:
+                    if sem_field:
+                        row['abstract'] = sem_field['abstract']
+
+                api_data.df.iloc[index] = row
+
+        # get data from crossref
+        for index, row in api_data.df.iterrows():
+            if pd.isna(row["abstract"]) or len(row["abstract"]) == 0 or row["label"] == "Science":
+                print(index)
+                row["crossref_field"] = api_data.get_crossref_data(row["doi"], index)
+
+                cross_field = row["crossref_field"]
+                if pd.isna(row["abstract"]) or len(row["abstract"]) == 0:
+                    if cross_field:
+                        row["abstract"] = cross_field["abstract"]
+
+                api_data.df.iloc[index] = row
+
+        # api_data.df['crossref_field'] = [api_data.get_crossref_data(row['doi'], index)
+        #                              for index, row in api_data.df.iterrows()]
+
+        # print(api_data.df)
+        # api_data.df['abstract'] = [ab['abstract'] if ab != {} else {} for ab in api_data.df['crossref_field']]
+
+        # api_data.df['semantic_field'] = [api_data.get_semantic_scholar_data(row['doi'], index)
+        #                              for index, row in api_data.df.iterrows()]
 
         # make all non-existent abstract cells NaN
-        api_data.df.loc[api_data.df['abstract'] == '{}', 'abstract'] = np.NaN
+        # api_data.df.loc[api_data.df['abstract'] == '{}', 'abstract'] = np.NaN
 
         # make all rows of semantic field a dict
-        api_data.df['semantic_field'] = api_data.df['semantic_field'].apply(lambda x: ast.literal_eval(x))
+        # api_data.df['semantic_field'] = api_data.df['semantic_field'].apply(lambda x: ast.literal_eval(x))
 
         # iterate and add abstracts if they exist in semantic scholar data
-        for index, row in api_data.df.iterrows():
+        """for index, row in api_data.df.iterrows():
             sem_field = row['semantic_field']
 
-        if pd.isnull(row['abstract']):
-            if bool(sem_field):
-                api_data.df.at[index, 'abstract'] = sem_field['abstract']
+            if len(row['abstract']) == 0:
+                if sem_field:
+                    api_data.df.at[index, 'abstract'] = sem_field['abstract']"""
+        # print(api_data.df)
+        api_data.df.to_csv("data/temp/api_data.csv", index=False)
 
         self.df = api_data.df
-        self.df.to_csv("data/api_abstracts.csv", index=False)
+        self.df.to_csv("data/temp/api_abstracts.csv", index=False)
         print("finished getting abstracts from APIs")
         return self.df
 
@@ -155,26 +193,33 @@ class ORKGData:
         :return: dataframe with added abstracts from ORKG
         """
 
-        orkg_df = pd.read_csv('data_processing/data/orkg_abstracts/orkg_papers.csv')
+        orkg_df = pd.read_csv('data/orkg_abstracts/orkg_papers.csv')
         orkg_df['title'] = [str(title).lower() for title in orkg_df['title']]
-        self.df['orkg_abstract_doi'] = [get_orkg_abstract_doi(row['doi'], orkg_df)
+
+        """self.df['orkg_abstract_doi'] = [get_orkg_abstract_doi(row['doi'], orkg_df)
                                         for index, row in self.df.iterrows()]
         self.df['orkg_abstract_title'] = [get_orkg_abstract_title(row['title'], orkg_df) for index, row in
-                                          self.df.iterrows()]
+                                          self.df.iterrows()]"""
 
         for index, row in self.df.iterrows():
-            abst_doi = row['orkg_abstract_doi']
-            abst_title = row['orkg_abstract_title']
+            if pd.isna(row["abstract"]) or len(row["abstract"]) == 0:
+                print(index)
+                abst_doi = get_orkg_abstract_doi(row["doi"], orkg_df)
 
-            if pd.isnull(row['abstract']):
+            # abst_doi = row['orkg_abstract_doi']
+            # abst_title = row['orkg_abstract_title']
+
+                # if pd.isnull(row['abstract']):
                 if abst_doi != 'no_abstract_found' and is_english(abst_doi):
                     self.df.at[index, 'abstract'] = abst_doi
-                elif abst_title != 'no_abstract_found' and is_english(abst_title):
-                    self.df.at[index, 'abstract'] = abst_title
+                else:
+                    abst_title = get_orkg_abstract_title(row["title"], orkg_df)
+                    if abst_title != 'no_abstract_found' and is_english(abst_title):
+                        self.df.at[index, 'abstract'] = abst_title
 
-        self.df.drop(columns=['orkg_abstract_doi', 'orkg_abstract_title'])
+        # self.df.drop(columns=['orkg_abstract_doi', 'orkg_abstract_title'])
 
-        self.df.to_csv("data/orkg_abstracts.csv", index=False)
+        self.df.to_csv("data/temp/orkg_abstracts.csv", index=False)
         print("finished getting abstracts from orkg")
         return self.df
 
@@ -186,11 +231,12 @@ class ORKGData:
         :return: dataframe converted Science labels
         """
         # load df only with science labels
-        science_df = self.df.query('label == "Science"')
+        # science_df = self.df.loc[self.df["label"] == "Science"]
+        science_df = self.df.query('label == "Science"').copy()
         science_df['crossref_field'] = science_df['crossref_field'].apply(lambda x: ast.literal_eval(x))
 
         # load crossref -> orkg mappings
-        crossref_path = 'data_processing/data/mappings/research_field_mapping_crossref_field.json'
+        crossref_path = 'data/mappings/research_field_mapping_crossref_field.json'
         with open(crossref_path, 'r') as infile:
             cross_ref_mappings = json.load(infile)
 
@@ -204,10 +250,10 @@ class ORKGData:
                     if label in cross_ref_mappings.keys():
                         self.df.at[index, 'label'] = cross_ref_mappings[label]
 
-        science_df = self.df.query('label == "Science"')
+        science_df = self.df.query('label == "Science"').copy()
         science_df['semantic_field'] = science_df['semantic_field'].apply(lambda x: ast.literal_eval(x))
 
-        semanticschol_path = 'data_processing/data/mappings/research_field_mapping_semantic_field.json'
+        semanticschol_path = 'data/mappings/research_field_mapping_semantic_field.json'
         with open(semanticschol_path, 'r') as infile:
             semanticschol_mappings = json.load(infile)
 
@@ -257,8 +303,9 @@ class ORKGData:
         """
         orkg_df['authors_parsed'] = ''
         for index, row in orkg_df.iterrows():
-
+            print(row["author"])
             if not pd.isna(row['author']):
+
                 if row['author'].startswith('['):
                     author_list = ast.literal_eval(row['author'])
                     authors_list_parsed = []
@@ -287,15 +334,20 @@ def orkg_data_pipeline():
     """
     orkg_data = ORKGData(ORKGPyModule())
 
+    get_orkg_papers()
+
     # uncomment if creating new
     orkg_df = orkg_data.load_label_data()
-    # orkg_data.df = pd.read_csv("data/orkg_loaded_label_data.csv")
+    # orkg_data.df = pd.read_csv("data/temp/orkg_loaded_label_data.csv")
+
+    # orkg_data.df = orkg_data.df[orkg_data.df.label == "Science"]
+    print(len(orkg_data.df.index))
     orkg_df = orkg_data.clean_orkg_data()
     orkg_df = orkg_data.get_abstracts_from_apis()
     orkg_df = orkg_data.get_abstracts_from_orkg()
     orkg_df = orkg_data.convert_science_labels()
     # orkg_df = orkg_data.reduce_rf()
-    orkg_df.to_csv('data/orkg_processed_data_03022023.csv', index=False)
+    orkg_df.to_csv('data/orkg_processed_data_11032023.csv', index=False)
 
 
 def remove_doi_dups(data_df):
@@ -314,7 +366,7 @@ def get_abstracts_from_orkg(df):
     https://gitlab.com/TIBHannover/orkg/orkg-abstracts
     """
 
-    orkg_df = pd.read_csv('data_processing/data/orkg_abstracts/orkg_papers.csv')
+    orkg_df = pd.read_csv('data/orkg_abstracts/orkg_papers.csv')
     orkg_df['title'] = [str(title).lower() for title in orkg_df['title']]
     df['orkg_abstract_doi'] = [get_orkg_abstract_doi(row['doi'], orkg_df)
                                for index, row in df.iterrows()]
@@ -336,8 +388,54 @@ def get_abstracts_from_orkg(df):
     return df
 
 
+def get_orkg_papers():
+    """
+    Downloads abstract data for the papers currently in the ORKG.
+    :return: -
+    """
+    with open("data/orkg_abstracts/orkg_papers.csv", "wb") as f:
+        f.write(requests.get("https://orkg.org/files/orkg_papers.csv").content)
+
+
+def process_science_papers():
+    """
+    Testing function for merging science labelled papers back into entire stack data
+    :return:
+    """
+    api_data = APIData(pd.read_csv('data/temp/orkg_loaded_label_data.csv'))
+    print(len(api_data.df.index))
+
+    # api_data.df['crossref_field'] = [api_data.get_crossref_data(row['doi'], index)
+    #                              for index, row in api_data.df.iterrows()]
+    k = 0
+    # get data from crossref
+    for index, row in api_data.df.iterrows():
+        if row["label"] == "Science":
+            print(index)
+            row["semantic_field"] = api_data.get_semantic_scholar_data(row["doi"], index)
+
+            cross_field = row["semantic_field"]
+            if pd.isna(row["abstract"]) or len(row["abstract"]) == 0:
+                if cross_field:
+                    row["abstract"] = cross_field["abstract"]
+
+            api_data.df.iloc[index] = row
+
+    api_data.df.to_csv('data/temp/test.csv')
+
+
+def orkg_api_sandbox():
+    orkg_data = ORKGData(ORKGPyModule())
+    orkg_data.df = pd.read_csv('data/temp/api_abstracts.csv')
+    # orkg_data.get_abstracts_from_orkg()
+    orkg_data.convert_science_labels()
+    orkg_data.df.to_csv('data/temp/test.csv')
+
+
 if __name__ == '__main__':
     orkg_data_pipeline()
+    # process_science_papers()
+    # orkg_api_sandbox()
 
     # df = pd.DataFrame({"col1": [1, 2], "col2": [3, 4]})
     # df.to_csv("data/test.csv", index=False)
@@ -345,7 +443,3 @@ if __name__ == '__main__':
     # df = pd.read_csv('data_processing/data/orkg_data_processed_no_eng.csv')
     # df = get_abstracts_from_orkg(df)
     # df.to_csv('data_processing/data/orkg_data_processed_20221124.csv', index=False)
-
-    # Error: File "D:/Uni/Arbeit/ReFICl/nfdi4ds-rfc/data_processing/process_orkg_data.py", line 254, in parse_authors_orkg
-    #     if not pd.isna(row['author']):
-    # ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()

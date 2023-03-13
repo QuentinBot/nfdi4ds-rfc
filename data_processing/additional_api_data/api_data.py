@@ -41,6 +41,7 @@ class APIData:
         self.df = df
         self.api_scheduler = APIScheduler()
         self.data_validation = DataValidation(level=2)
+        print("initialised api data")
 
     def get_crossref_data(self, doi: str, index: int) -> Dict:
         """
@@ -58,7 +59,10 @@ class APIData:
         Dict
             Dict that holds api data
         """
-        if doi:
+        print(type(doi))
+        if type(doi) == list:
+            doi = doi[0]
+        if doi and not pd.isna(doi):
             crossref_url = 'https://api.crossref.org/works/' + str(doi)
         else:
             url_encoded_title = urllib.parse.quote_plus(self.df.at[index, 'title'])
@@ -67,23 +71,31 @@ class APIData:
         try:
             response = requests.get(crossref_url)
 
-        except ConnectionError:
+        except Exception as e:
+            print(e)
+            print("got connection error in crossref, trying again...")
             time.sleep(60)
-            response = requests.get(crossref_url)
+            try:
+                response = requests.get(crossref_url)
+            except Exception as e:
+                print(e)
+                print("got connection error in crossref, leaving out")
 
         data_dict = {}
-
+        print(crossref_url)
         if response.ok:
             content_dict_crossref = json.loads(response.content)
             message = content_dict_crossref['message']
 
-            if not doi:
+            if not doi or pd.isna(doi):
+                print("handle title api data")
                 message, paper_found = self._handle_crossref_title_api_data(index, message)
                 if not paper_found:
                     return {}
 
             data_dict = self._process_api_data_crossref(message, index)
 
+        print(data_dict)
         return data_dict
 
     def get_semantic_scholar_data(self, doi: str, index: int) -> Dict:
@@ -102,12 +114,12 @@ class APIData:
         Dict
             Dict that holds api data
         """
-        if not doi:
+        """if not doi:
             scraped_data = self._scrape_data_from_semantic(index)
             doi = scraped_data.get('doi', '')
 
             if not doi and 'author' in scraped_data and self.df.at[index, 'author']:
-                return self._process_scraped_data(index, scraped_data)
+                return self._process_scraped_data(index, scraped_data)"""
 
         semantic_scholar_url = 'https://api.semanticscholar.org/v1/paper/' + str(doi)
         self.api_scheduler.update()
@@ -115,9 +127,15 @@ class APIData:
         try:
             response = requests.get(semantic_scholar_url)
 
-        except ConnectionError:
+        except Exception as e:
+            print(e)
+            print("got error in semantic scholar, trying again...")
             time.sleep(60)
-            response = requests.get(semantic_scholar_url)
+            try:
+                response = requests.get(semantic_scholar_url)
+            except Exception as e:
+                print(e)
+                print("got connection error in scholar, leaving out")
 
         data_dict = {}
 
@@ -125,6 +143,7 @@ class APIData:
             content_dict_scholar = json.loads(response.content)
             data_dict = self._process_api_data_semantic(content_dict_scholar, index)
 
+        print(data_dict)
         return data_dict
 
     def _handle_crossref_title_api_data(self, index: int, message: Dict) -> Tuple[Dict, bool]:
@@ -148,14 +167,15 @@ class APIData:
         paper_found = True
 
         for item in message.get('items', []):
-            if self.df.at[index, 'title'].lower() == item.get('title', '')[0].lower():
-                api_doi = item.get('DOI', '')
-                message = item
-                break
-            elif fuzz.ratio(self.df.at[index, 'title'].lower(), item.get('title', '')[0].lower()) > 95:
-                api_doi = item.get('DOI', '')
-                message = item
-                break
+            if item.get("title", ""):
+                if self.df.at[index, 'title'].lower() == item.get('title', '')[0].lower():
+                    api_doi = item.get('DOI', '')
+                    message = item
+                    break
+                elif fuzz.ratio(self.df.at[index, 'title'].lower(), item.get('title', '')[0].lower()) > 95:
+                    api_doi = item.get('DOI', '')
+                    message = item
+                    break
 
         if api_doi:
             response = requests.get('https://api.crossref.org/works/' + api_doi)
