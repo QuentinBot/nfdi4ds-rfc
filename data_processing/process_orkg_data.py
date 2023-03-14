@@ -129,19 +129,6 @@ class ORKGData:
         # api_data.df['crossref_field'] = [api_data.get_crossref_data(row['doi'], index)
         #                              for index, row in api_data.df.iterrows()]
 
-        # get data from semantic scholar
-        for index, row in api_data.df.iterrows():
-            if pd.isna(row["abstract"]) or len(row["abstract"]) == 0 or row["label"] == "Science":
-                print(index)
-                row["semantic_field"] = api_data.get_semantic_scholar_data(row["doi"], index)
-
-                sem_field = row['semantic_field']
-                if pd.isna(row["abstract"]) or len(row['abstract']) == 0:
-                    if sem_field:
-                        row['abstract'] = sem_field['abstract']
-
-                api_data.df.iloc[index] = row
-
         # get data from crossref
         for index, row in api_data.df.iterrows():
             if pd.isna(row["abstract"]) or len(row["abstract"]) == 0 or row["label"] == "Science":
@@ -152,6 +139,19 @@ class ORKGData:
                 if pd.isna(row["abstract"]) or len(row["abstract"]) == 0:
                     if cross_field:
                         row["abstract"] = cross_field["abstract"]
+
+                api_data.df.iloc[index] = row
+
+        # get data from semantic scholar
+        for index, row in api_data.df.iterrows():
+            if pd.isna(row["abstract"]) or len(row["abstract"]) == 0 or row["label"] == "Science":
+                print(index)
+                row["semantic_field"] = api_data.get_semantic_scholar_data(row["doi"], index)
+
+                sem_field = row['semantic_field']
+                if pd.isna(row["abstract"]) or len(row['abstract']) == 0:
+                    if sem_field:
+                        row['abstract'] = sem_field['abstract']
 
                 api_data.df.iloc[index] = row
 
@@ -432,10 +432,88 @@ def orkg_api_sandbox():
     orkg_data.df.to_csv('data/temp/test.csv')
 
 
+def general_sandbox():
+    orkg_df = pd.read_csv('data/temp/Taxonomy_researchfields.csv')
+    level1 = orkg_df["1"]
+    level2 = orkg_df["2"]
+    level3 = orkg_df["3"]
+    print(level1)
+    print(level2)
+    print(level3)
+    for element in level3:
+        if "Epidemiology" == element:
+            print("ye")
+
+
+def create_dataset_file():
+    # not yet converted?
+    df = pd.read_csv('data/temp/test.csv')
+    df = df[["title", "abstract", "author", "publisher", "label", "crossref_field", "semantic_field"]]
+
+    for index, row in df.iterrows():
+        if not pd.isna(row["crossref_field"]) and len(row["crossref_field"]) > 2:
+            row["crossref_field"] = ast.literal_eval(row["crossref_field"])
+            row["crossref_field"] = row["crossref_field"]["crossref_field"][0]
+            df.iloc[index] = row
+        if not pd.isna(row["semantic_field"]) and len(row["semantic_field"]) > 2:
+            row["semantic_field"] = ast.literal_eval(row["semantic_field"])
+            row["semantic_field"] = row["semantic_field"]["semantic_field"]
+            df.iloc[index] = row
+    df.to_csv("data/temp/dataset.csv", index=False)
+
+
+def create_metadata_file():
+    df = pd.read_csv("data/temp/test.csv")
+    research_field_counter = {"ORKG Research Field": [], "Taxonomy Level": [], "Number of paper instances": [], "Percentage overall": []}
+
+    taxonomy_levels = pd.read_csv("data/Taxonomy_researchfields.csv")
+    level1 = taxonomy_levels["1"]
+    level2 = taxonomy_levels["2"]
+    level3 = taxonomy_levels["3"]
+    level4 = taxonomy_levels["4"]
+    level5 = taxonomy_levels["5"]
+
+    paper_count = 0
+    for index, row in df.iterrows():
+        paper_count += 1
+        label = row["label"]
+        if label not in research_field_counter["ORKG Research Field"]:
+            research_field_counter["ORKG Research Field"].append(label)
+            research_field_counter["Number of paper instances"].append(1)
+        else:
+            i = research_field_counter["ORKG Research Field"].index(label)
+            research_field_counter["Number of paper instances"][i] += 1
+    for field_number in research_field_counter["Number of paper instances"]:
+        research_field_counter["Percentage overall"].append((field_number/paper_count)*100)
+    for label in research_field_counter["ORKG Research Field"]:
+        if label in level1.values:
+            research_field_counter["Taxonomy Level"].append(1)
+        elif label in level2.values:
+            research_field_counter["Taxonomy Level"].append(2)
+        elif label in level3.values:
+            research_field_counter["Taxonomy Level"].append(3)
+        elif label in level4.values:
+            research_field_counter["Taxonomy Level"].append(4)
+        elif label in level5.values:
+            research_field_counter["Taxonomy Level"].append(5)
+        else:
+            print(label)
+            research_field_counter["Taxonomy Level"].append("nothing found")
+
+    metadata = pd.DataFrame(research_field_counter)
+    metadata.sort_values(by=["Number of paper instances"], inplace=True, ascending=False)
+    metadata.reset_index(inplace=True, drop=True)
+
+    metadata.to_csv("data/temp/temp_metadata.csv", index=False)
+
+
 if __name__ == '__main__':
-    orkg_data_pipeline()
+    # orkg_data_pipeline()
     # process_science_papers()
     # orkg_api_sandbox()
+    # general_sandbox()
+    # create_dataset_file()
+    create_metadata_file()
 
     # df = pd.DataFrame({"col1": [1, 2], "col2": [3, 4]})
     # df.to_csv("data/test.csv", index=False)
