@@ -20,10 +20,11 @@ class ArxivData:
     """
 
     def __init__(self,
-                 arxiv_data_path="data_processing/data/arxiv_data/arxiv-metadata-oai-snapshot.json",
-                 orkg_data_df_path="data_processing/data/orkg_data_processed_20221124.csv"):
+                 arxiv_data_path="data/arxiv_data/arxiv-metadata-oai-snapshot.json",
+                 orkg_data_df_path="data/orkg_data_processed_20221125.csv"):
         self.arxiv_data_path = arxiv_data_path
         self.arxiv_df = pd.read_json(self.arxiv_data_path, lines=True)
+        print("file read")
         self.orkg_df = pd.read_csv(orkg_data_df_path)
         self.mapping_arxiv_orkg = self._load_mapping('data/mappings/arxiv_to_orkg_fields.json')
         self.arxiv_labels = list(self.mapping_arxiv_orkg.keys())
@@ -138,7 +139,15 @@ class ArxivData:
 
 
 if __name__ == '__main__':
-    single_label_arxiv = pd.read_csv('data_processing/data/arxiv_single_label_data.csv')
+    # single_label_arxiv = pd.read_csv('data_processing/data/arxiv_single_label_data.csv')
     arxiv = ArxivData()
+    print("arxiv initialised")
+    arxiv.add_abstracts_orkg(arxiv.orkg_df)
+    print("abstracts added")
+    arxiv.drop_orkg_dups()
+    print("dups removed")
+    single_label_arxiv = arxiv.get_single_label_instance(arxiv.arxiv_df)
+    print("got single label data")
     reduced_arxiv_data = arxiv.get_reduced_data(single_label_arxiv, 50000)
+    print("reduced data")
     arxiv.map_arxiv_to_orkg(reduced_arxiv_data)

@@ -233,6 +233,8 @@ class ORKGData:
         # load df only with science labels
         # science_df = self.df.loc[self.df["label"] == "Science"]
         science_df = self.df.query('label == "Science"').copy()
+
+        # hier am crashen
         science_df['crossref_field'] = science_df['crossref_field'].apply(lambda x: ast.literal_eval(x))
 
         # load crossref -> orkg mappings
@@ -433,37 +435,35 @@ def orkg_api_sandbox():
 
 
 def general_sandbox():
-    orkg_df = pd.read_csv('data/temp/Taxonomy_researchfields.csv')
-    level1 = orkg_df["1"]
-    level2 = orkg_df["2"]
-    level3 = orkg_df["3"]
-    print(level1)
-    print(level2)
-    print(level3)
-    for element in level3:
-        if "Epidemiology" == element:
-            print("ye")
+    orkg_data = ORKGData(ORKGPyModule())
+    orkg_data.df = pd.read_csv("data/temp/api_abstracts.csv")
+    orkg_df = orkg_data.convert_science_labels()
+    orkg_df.to_csv('data/orkg_processed_data_15032023.csv', index=False)
 
 
 def create_dataset_file():
     # not yet converted?
-    df = pd.read_csv('data/temp/test.csv')
+    df = pd.read_csv('data/orkg_processed_data_15032023.csv')
     df = df[["title", "abstract", "author", "publisher", "label", "crossref_field", "semantic_field"]]
 
     for index, row in df.iterrows():
         if not pd.isna(row["crossref_field"]) and len(row["crossref_field"]) > 2:
             row["crossref_field"] = ast.literal_eval(row["crossref_field"])
+            if pd.isna(row["publisher"]) and len(row["crossref_field"]["publisher"]) > 0:
+                row["publisher"] = row["crossref_field"]["publisher"][0]
             row["crossref_field"] = row["crossref_field"]["crossref_field"][0]
             df.iloc[index] = row
         if not pd.isna(row["semantic_field"]) and len(row["semantic_field"]) > 2:
             row["semantic_field"] = ast.literal_eval(row["semantic_field"])
+            if pd.isna(row["publisher"]) and len(row["semantic_field"]["publisher"]) > 0:
+                row["publisher"] = row["semantic_field"]["publisher"][0]
             row["semantic_field"] = row["semantic_field"]["semantic_field"]
             df.iloc[index] = row
     df.to_csv("data/temp/dataset.csv", index=False)
 
 
 def create_metadata_file():
-    df = pd.read_csv("data/temp/test.csv")
+    df = pd.read_csv("data/orkg_processed_data_15032023.csv")
     research_field_counter = {"ORKG Research Field": [], "Taxonomy Level": [], "Number of paper instances": [], "Percentage overall": []}
 
     taxonomy_levels = pd.read_csv("data/Taxonomy_researchfields.csv")
@@ -483,8 +483,10 @@ def create_metadata_file():
         else:
             i = research_field_counter["ORKG Research Field"].index(label)
             research_field_counter["Number of paper instances"][i] += 1
+
     for field_number in research_field_counter["Number of paper instances"]:
         research_field_counter["Percentage overall"].append((field_number/paper_count)*100)
+
     for label in research_field_counter["ORKG Research Field"]:
         if label in level1.values:
             research_field_counter["Taxonomy Level"].append(1)
@@ -504,7 +506,7 @@ def create_metadata_file():
     metadata.sort_values(by=["Number of paper instances"], inplace=True, ascending=False)
     metadata.reset_index(inplace=True, drop=True)
 
-    metadata.to_csv("data/temp/temp_metadata.csv", index=False)
+    metadata.to_csv("data/temp/metadata.csv", index=False)
 
 
 if __name__ == '__main__':
@@ -512,7 +514,7 @@ if __name__ == '__main__':
     # process_science_papers()
     # orkg_api_sandbox()
     # general_sandbox()
-    # create_dataset_file()
+    create_dataset_file()
     create_metadata_file()
 
     # df = pd.DataFrame({"col1": [1, 2], "col2": [3, 4]})

@@ -1,0 +1,308 @@
+ORKG Research Field,Taxonomy Level,Number of paper instances,Percentage overall
+Computer Sciences,2,10528,43.68102232179902
+Bioinformatics,2,1226,5.08671479545266
+Ecology and Evolutionary Biology,2,988,4.0992448759439055
+Medicine,2,949,3.9374325782092776
+Science,nothing found,816,3.3856111526014443
+Information Science,2,534,2.215583768981827
+Artificial Intelligence,3,514,2.1326031034768897
+Software Engineering,3,499,2.0703676043481867
+Natural Language Processing,4,373,1.5475894116670816
+Engineering,1,362,1.501950045639366
+"Operations Research, Systems Engineering and Industrial Engineering",2,344,1.4272674466849222
+Virology,3,332,1.37747904738196
+Computer and Systems Architecture,3,331,1.373330014106713
+"Information Systems, Process and Knowledge Management",3,298,1.2364119160235665
+Computer Engineering,2,271,1.1243880175919012
+Environmental Sciences,3,235,0.9750228196830139
+Semantic Web,4,226,0.9376815202057921
+Toxicology,3,222,0.9210853871048046
+Urban Studies and Planning,2,204,0.8464027881503611
+Medicinal Chemistry and Pharmaceutics,3,186,0.7717201891959173
+Materials Science and Engineering,2,176,0.7302298564434486
+Cryptography and Security,3,176,0.7302298564434486
+Oceanography,3,127,0.5269272259563522
+Chemistry,2,119,0.4937349597543772
+Security and Dependability,3,118,0.48958592647913035
+Econometrics,3,116,0.48128785992863665
+Science and Technology Studies,2,111,0.4605426935524023
+Earth Sciences,2,110,0.45639366027715544
+"Social Control, Law, Crime, and Deviance",3,104,0.4314994606256742
+Machine Learning,4,102,0.42320139407518054
+Databases/Information Systems,3,98,0.40660526097419303
+Plasma and Beam Physics,3,97,0.4024562276989462
+Power and Energy,3,94,0.3900091278732055
+Economics,2,92,0.3817110613227118
+"Atomic, Molecular and Optical Physics",3,87,0.36096589494647746
+Computational Linguistics,3,84,0.34851879512073686
+Industrial Engineering,3,80,0.3319226620197494
+Nanoscience and Nanotechnology,2,78,0.3236245954692557
+Materials Chemistry,3,75,0.31117749564351505
+Applied Physics,3,65,0.2696871628910464
+"Urbanism, Spatial Planning, Transportation and Infrastructure Planning, Landscape Planning",3,62,0.2572400630653058
+Planetary Sciences,3,57,0.23649489668907145
+OS/Networks,3,55,0.22819683013857772
+Applied Mathematics,2,53,0.21989876358808397
+Organic Chemistry,3,51,0.21160069703759027
+Mathematics,2,51,0.21160069703759027
+"Ecology and Biodiversity of Animals and Ecosystems, Organismic Interactions",4,50,0.2074516637623434
+Graphics,3,50,0.2074516637623434
+Psychology,2,41,0.17011036428512155
+Mechanical Engineering,2,40,0.1659613310098747
+Animal Sciences,2,40,0.1659613310098747
+Life Sciences,1,39,0.16181229773462785
+Geology,3,37,0.1535142311841341
+Geography,2,36,0.14936519790888725
+Immunology and Infectious Disease,2,35,0.14521616463364037
+Epidemiology,3,34,0.1410671313583935
+Social and Behavioral Sciences,1,34,0.1410671313583935
+"Stars, Interstellar Medium and the Galaxy",3,33,0.13691809808314662
+Analytical Chemistry,3,33,0.13691809808314662
+Political Science,2,30,0.12447099825740601
+Botany,3,29,0.12032196498215916
+Information science,2,29,0.12032196498215916
+Computational Engineering,2,29,0.12032196498215916
+Physical Chemistry,3,28,0.11617293170691229
+Gastroenterology,3,28,0.11617293170691229
+"Work, Economy and Organizations",3,28,0.11617293170691229
+Educational Research,2,27,0.11202389843166542
+Environmental Health,3,27,0.11202389843166542
+Cell Biology,3,27,0.11202389843166542
+Physics,2,27,0.11202389843166542
+Business Administration,3,25,0.1037258318811717
+Computational Neuroscience,3,25,0.1037258318811717
+Climate,3,24,0.09957679860592482
+Semiconductor and Optical Materials,3,24,0.09957679860592482
+Cell and Developmental Biology,2,23,0.09542776533067795
+Energy Systems,3,23,0.09542776533067795
+Networking and Internet Architecture,4,22,0.09127873205543108
+Biomedical Engineering and Bioengineering,2,22,0.09127873205543108
+Inorganic Chemistry,3,22,0.09127873205543108
+Astrophysics and Astronomy,2,22,0.09127873205543108
+Digital Communications and Networking,3,21,0.08712969878018421
+Sociology,2,21,0.08712969878018421
+Ecology of Land Use,3,19,0.07883163222969049
+Theory/Algorithms,3,19,0.07883163222969049
+Genetics,3,19,0.07883163222969049
+First/Second Language Acquisition,3,19,0.07883163222969049
+Medicine and Health,3,19,0.07883163222969049
+Biochemistry,3,18,0.07468259895444362
+Control Theory,3,18,0.07468259895444362
+Computer Vision and Pattern Recognition,3,17,0.07053356567919675
+Systems Engineering and Multidisciplinary Design Optimization,3,17,0.07053356567919675
+Hardware Systems,3,17,0.07053356567919675
+Human and Clinical Nutrition,3,17,0.07053356567919675
+"Hematology, Oncology",3,17,0.07053356567919675
+Digital Libraries,4,17,0.07053356567919675
+Software Engineering and Programming Languages,3,16,0.06638453240394988
+Biotechnology,2,16,0.06638453240394988
+Urban Studies,3,15,0.062235499128703006
+Arts and Humanities,1,15,0.062235499128703006
+"Theory, Knowledge and Science",3,14,0.05808646585345614
+Computer-Aided Engineering and Design,3,14,0.05808646585345614
+Cultural History,3,13,0.05393743257820927
+Aerospace Engineering,2,13,0.05393743257820927
+Behavioral Economics,3,13,0.05393743257820927
+Polymer Chemistry,3,12,0.04978839930296241
+Industrial and Organizational Psychology,3,11,0.04563936602771554
+European Languages and Societies (not elsewhere classified),3,11,0.04563936602771554
+Molecular Biology,3,11,0.04563936602771554
+Catalysis and Reaction Engineering,3,11,0.04563936602771554
+Chemical Engineering,2,11,0.04563936602771554
+Data Storage Systems,3,11,0.04563936602771554
+Zoology,3,11,0.04563936602771554
+"Clinical Psychiatry, Psychotherapy, Child and Adolescent Psychiatry",3,10,0.041490332752468675
+"Public Health, Health Services Research, Social Medicine",3,10,0.041490332752468675
+"Hydrogeology, Hydrology, Limnology, Urban Water Management, Water Chemistry, Integrated Water Resources Management",3,10,0.041490332752468675
+Medicinal-Pharmaceutical Chemistry,3,10,0.041490332752468675
+Microbiology,2,10,0.041490332752468675
+Communication Neuroscience,3,10,0.041490332752468675
+Motor Control,3,10,0.041490332752468675
+Neuroscience and Neurobiology,2,9,0.03734129947722181
+Biophysics,3,9,0.03734129947722181
+Numerical Analysis/Scientific Computing,3,9,0.03734129947722181
+Pathogenic Microbiology,3,9,0.03734129947722181
+Public Administration,3,9,0.03734129947722181
+Physiology,2,9,0.03734129947722181
+Food Processing,3,9,0.03734129947722181
+Medical Informatics and Medical Bioinformatics,3,9,0.03734129947722181
+Social Psychology,3,9,0.03734129947722181
+Electronic Devices and Semiconductor Manufacturing,3,9,0.03734129947722181
+International Relations,3,9,0.03734129947722181
+Immunology of Infectious Disease,3,8,0.03319226620197494
+Atmospheric Sciences,3,8,0.03319226620197494
+General and Visceral Surgery,3,8,0.03319226620197494
+Signal Processing,3,8,0.03319226620197494
+Place and Environment,3,8,0.03319226620197494
+Environmental Chemistry,3,8,0.03319226620197494
+Public Health,2,8,0.03319226620197494
+The Sun and the Solar System,3,8,0.03319226620197494
+Geographic Information Sciences,3,8,0.03319226620197494
+Robotics,3,8,0.03319226620197494
+Clinical Neurology; Neurosurgery and Neuroradiology,3,8,0.03319226620197494
+Social Sciences,2,7,0.02904323292672807
+Private Law,3,7,0.02904323292672807
+Agronomy and Crop Sciences,3,7,0.02904323292672807
+"Construction Material Sciences, Chemistry, Building Physics",3,7,0.02904323292672807
+Semantics/Pragmatics,3,7,0.02904323292672807
+Atomic Physics,4,7,0.02904323292672807
+General and Domain-Specific Teaching and Learning,3,7,0.02904323292672807
+Empirical Social Research,3,6,0.024894199651481205
+Health Communication,3,6,0.024894199651481205
+Biology/Integrated Biology/ Integrated Biomedical Sciences,2,6,0.024894199651481205
+Electrical Engineering and Information Technology,2,6,0.024894199651481205
+Numerical Analysis and Computation,3,6,0.024894199651481205
+Civil Engineering,3,6,0.024894199651481205
+Learner-Interface Interaction,4,6,0.024894199651481205
+Biomedical,3,6,0.024894199651481205
+Communication Technology and New Media,3,6,0.024894199651481205
+Cognition and Perception,3,6,0.024894199651481205
+Soil Science,3,6,0.024894199651481205
+Discourse/Text Linguistics,3,5,0.020745166376234338
+Anatomy,3,5,0.020745166376234338
+Computers and Society,3,5,0.020745166376234338
+South and Southeast Asian Languages and Societies,3,5,0.020745166376234338
+Developmental Biology,3,5,0.020745166376234338
+Mechanical Process Engineering,4,5,0.020745166376234338
+Terrestrial and Aquatic Ecology,3,5,0.020745166376234338
+Plant Sciences,2,5,0.020745166376234338
+Linguistics,2,5,0.020745166376234338
+Thermodynamics,3,5,0.020745166376234338
+Environmental Microbiology and Microbial Ecology,3,5,0.020745166376234338
+Systems Biology,2,5,0.020745166376234338
+Aquaculture and Fisheries,3,4,0.01659613310098747
+Coating and Surface Technology,3,4,0.01659613310098747
+Forest Management,3,4,0.01659613310098747
+Geophysics and Seismology,3,4,0.01659613310098747
+Slavic Languages and Societies,3,4,0.01659613310098747
+"Acoustics, Dynamics, and Controls",3,4,0.01659613310098747
+Condensed Matter Physics,3,4,0.01659613310098747
+"Optics, Quantum Optics and Physics of Atoms, Molecules and Plasmas",2,4,0.01659613310098747
+Developmental and Educational Psychology,3,4,0.01659613310098747
+Phonetics/Phonology,3,4,0.01659613310098747
+Electrical and Electronics,3,4,0.01659613310098747
+Ocean Engineering,3,4,0.01659613310098747
+Applied Linguistics,3,4,0.01659613310098747
+Computational Biology,3,4,0.01659613310098747
+Entomology Food Science,2,4,0.01659613310098747
+Behavioral Neurobiology,3,3,0.012447099825740602
+Electro-Mechanical Systems,3,3,0.012447099825740602
+Cellular and Molecular Physiology,3,3,0.012447099825740602
+Agricultural and Resource Economics,2,3,0.012447099825740602
+Human Computer Interfaces,3,3,0.012447099825740602
+Plant Pathology,3,3,0.012447099825740602
+Food Chemistry,3,3,0.012447099825740602
+Water Research,2,3,0.012447099825740602
+Communication Sciences,2,3,0.012447099825740602
+Nutritional Epidemiology,3,3,0.012447099825740602
+"Human Factors, Ergonomics, Human-Machine Systems",4,3,0.012447099825740602
+Pathology,3,3,0.012447099825740602
+Labor Economics,3,3,0.012447099825740602
+Bacteriology,3,3,0.012447099825740602
+Optics,3,3,0.012447099825740602
+Comparative Politics,3,3,0.012447099825740602
+"Biochemistry, Biophysics, and Structural Biology",2,3,0.012447099825740602
+Growth and Development,3,3,0.012447099825740602
+"Family, Life Course, and Society",3,3,0.012447099825740602
+Polymer and Organic Materials,3,3,0.012447099825740602
+Physical Sciences & Mathematics,1,3,0.012447099825740602
+Dermatology,3,3,0.012447099825740602
+Geochemistry,3,3,0.012447099825740602
+"Data Analysis, Statistics and Probability",3,3,0.012447099825740602
+Systems Engineering,3,3,0.012447099825740602
+Bioelectrical and neuroengineering,3,2,0.008298066550493735
+Social and Cultural Anthropology and Ethnology,2,2,0.008298066550493735
+Structural Biology,3,2,0.008298066550493735
+Plant Biology,3,2,0.008298066550493735
+Environmental Engineering,3,2,0.008298066550493735
+Pediatric and Adolescent Medicine,3,2,0.008298066550493735
+Genomics,3,2,0.008298066550493735
+Programming Languages/Compilers,3,2,0.008298066550493735
+Personality and Social Contexts,3,2,0.008298066550493735
+East Asian Languages and Societies,3,2,0.008298066550493735
+Systems and Integrative Physiology,3,2,0.008298066550493735
+Theoretical Computer Science,3,2,0.008298066550493735
+Industrial Organization,3,2,0.008298066550493735
+Computational Physics,3,2,0.008298066550493735
+Ecology and Biodiversity of Plants and Ecosystems,3,2,0.008298066550493735
+Digital Humanities,nothing found,2,0.008298066550493735
+Cognitive Psychology,3,2,0.008298066550493735
+Social Psychology and Interaction,3,2,0.008298066550493735
+Horticulture,3,2,0.008298066550493735
+Operational Research,3,2,0.008298066550493735
+Critical and Cultural Studies,3,2,0.008298066550493735
+Jurisprudence,2,2,0.008298066550493735
+Microbial Physiology,3,2,0.008298066550493735
+Systems and Communications,3,2,0.008298066550493735
+"Differential, Clinical and Medical Psychology, Methodology",3,2,0.008298066550493735
+Pharmacology,3,2,0.008298066550493735
+"Automation, Control Systems, Robotics, Mechatronics, Cyber Physical Systems",4,2,0.008298066550493735
+"Operating, Communication, Database and Distributed Systems",3,1,0.004149033275246868
+Genetics and Genomics,2,1,0.004149033275246868
+Logic and Foundations,3,1,0.004149033275246868
+Biogerontology and Geriatric Medicine,3,1,0.004149033275246868
+Biological Psychology,3,1,0.004149033275246868
+Biblical Studies,3,1,0.004149033275246868
+"Electrical Energy Generation, Distribution, Application",3,1,0.004149033275246868
+Mechanical Properties of Metallic Materials and their Microstructural Origins,3,1,0.004149033275246868
+Civil and Environmental Engineering,2,1,0.004149033275246868
+Massively Parallel and Data-Intensive Systems,3,1,0.004149033275246868
+Applied Mechanics,3,1,0.004149033275246868
+Requirements Engineering,4,1,0.004149033275246868
+Philosophy of Mind,3,1,0.004149033275246868
+Tribology,3,1,0.004149033275246868
+Analysis,3,1,0.004149033275246868
+Molecular and Cellular Neuroscience,3,1,0.004149033275246868
+Multi-Vehicle Systems and Air Traffic Control,3,1,0.004149033275246868
+Interpersonal/Small Group Communication,3,1,0.004149033275246868
+Religion,2,1,0.004149033275246868
+Comparative Literature,2,1,0.004149033275246868
+German Literature,4,1,0.004149033275246868
+Food Microbiology,3,1,0.004149033275246868
+Ethics and Political Philosophy,3,1,0.004149033275246868
+Construction Engineering/management,3,1,0.004149033275246868
+Ophthalmology,3,1,0.004149033275246868
+"Nursing Pharmacology, Toxicology and Environmental Health",2,1,0.004149033275246868
+Nutrition,2,1,0.004149033275246868
+Nuclear Engineering,2,1,0.004149033275246868
+"Radiology, Nuclear Medicine, Radiotherapy, Radiobiology",3,1,0.004149033275246868
+Immunopathology,3,1,0.004149033275246868
+American Popular Culture,3,1,0.004149033275246868
+Manufacturing,3,1,0.004149033275246868
+American Film Studies,3,1,0.004149033275246868
+Sociology of Culture,3,1,0.004149033275246868
+Physical and Environmental Geography,3,1,0.004149033275246868
+Structural Engineering,3,1,0.004149033275246868
+"Molecular, cellular, and tissue engineering",3,1,0.004149033275246868
+Bioimaging and biomedical optics,3,1,0.004149033275246868
+Discrete Mathematics and Combinatorics,3,1,0.004149033275246868
+Algebra,3,1,0.004149033275246868
+Metallurgy,3,1,0.004149033275246868
+Mechanics of Materials,3,1,0.004149033275246868
+Biological and Chemical Physics,3,1,0.004149033275246868
+Fresh Water Studies,3,1,0.004149033275246868
+Philosophy of Science,3,1,0.004149033275246868
+Organic Molecular Chemistry - Synthesis and Characterisation,4,1,0.004149033275246868
+Transport Phenomena,3,1,0.004149033275246868
+Developmental Neuroscience,3,1,0.004149033275246868
+Biological Psychiatry,3,1,0.004149033275246868
+Multiagent Systems,4,1,0.004149033275246868
+Education Systems and Educational Institutions,3,1,0.004149033275246868
+Ancient History (Greek and Roman through Late Antiquity),3,1,0.004149033275246868
+Ethics,3,1,0.004149033275246868
+Oceanography and Atmospheric Sciences and Meteorology,2,1,0.004149033275246868
+"Plant Cultivation, Plant Nutrition, Agricultural Technology",3,1,0.004149033275246868
+Clinical Infectiology and Tropical Medicine,3,1,0.004149033275246868
+Health Psychology,3,1,0.004149033275246868
+Parasitology,3,1,0.004149033275246868
+History,2,1,0.004149033275246868
+The Semantic Web,4,1,0.004149033275246868
+Cosmology,3,1,0.004149033275246868
+Biomaterials,3,1,0.004149033275246868
+Engineering Mechanics,3,1,0.004149033275246868
+Exercise Physiology,3,1,0.004149033275246868
+Asian,3,1,0.004149033275246868
+Inequality and Stratification,3,1,0.004149033275246868
+English Language and Literature,2,1,0.004149033275246868
+Aerodynamics and Fluid Mechanics,3,1,0.004149033275246868
+Structural Materials,3,1,0.004149033275246868
